@@ -1,0 +1,10 @@
+---
+# tasks file for wordpress
+- name: Enable to install PHP
+  shell: amazon-linux-extras enable php7.4
+
+- name: Install PHP
+  yum:
+    name: php
+    enablerepo: amzn2extra-php7.4
+    state: present

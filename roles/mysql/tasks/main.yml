@@ -1,0 +1,22 @@
+---
+# tasks file for mysql
+- name: Uninstall MariaDB
+  yum:
+    name: mariadb-libs
+    state: absent
+
+- name: Add MySQL repo
+  yum:
+    name: http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm
+    state: present
+
+- name: Install MySQL
+  yum:
+    name: mysql-community-server
+    state: present
+
+- name: Start and enable myslqd
+  service:
+    name: mysqld
+    state: started
+    enabled: yes

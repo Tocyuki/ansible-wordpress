@@ -1,0 +1,5 @@
+---
+db_name: "wordpress"
+db_username: "wordpress"
+db_password: "password"
+db_host: "wp-dev-db-cluster.cluster-cmpjz28rj9qd.us-west-2.rds.amazonaws.com"

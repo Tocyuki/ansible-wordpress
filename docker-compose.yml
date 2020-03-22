@@ -1,0 +1,19 @@
+version: '3.6'
+
+services:
+  packer:
+    build: ./docker/packer
+    container_name: packer
+    volumes:
+      - .:/packer
+    env_file: .env
+    working_dir: /packer
+
+  ansible-playbook:
+    build: ./docker/ansible
+    container_name: ansible
+    volumes:
+      - .:/ansible
+    env_file: .env
+    working_dir: /ansible
+
