@@ -1,0 +1,55 @@
+---
+# tasks file for mysql
+- name: Uninstall MariaDB
+  yum:
+    name: mariadb-libs
+    state: absent
+
+- name: Add MySQL repo
+  yum:
+    name: http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm
+    state: present
+
+- name: Install MySQL server
+  yum:
+    name: mysql-community-server
+    state: present
+
+- name: Install MySQL-python
+  yum:
+    name: MySQL-python
+    state: present
+
+- name: Start and enable myslqd
+  service:
+    name: mysqld
+    state: started
+    enabled: yes
+
+- name: Get temporary password
+  shell: cat /var/log/mysqld.log | grep "temporary password" | awk '{print $11}'
+  register: mysql_default_password
+
+- name: Change root user password
+  shell: |
+    mysql -u root -p'{{ mysql_default_password.stdout }}' --connect-expired-password -e "set password for root@'localhost'=password('{{ mysql_root_password }}');"
+    mysql -u root -p'{{ mysql_default_password.stdout }}' --connect-expired-password -e "SET GLOBAL validate_password_length=4;"
+    mysql -u root -p'{{ mysql_default_password.stdout }}' --connect-expired-password -e "SET GLOBAL validate_password_policy=LOW;"
+  ignore_errors: true
+
+- name: Create database
+  mysql_db:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ app_name }}"
+    state: present
+
+- name: Create database user
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    host: "{{ client_host }}"
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+    priv: "{{ app_name }}.*:ALL"
+    state: present

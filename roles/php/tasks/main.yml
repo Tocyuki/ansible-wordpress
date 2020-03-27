@@ -1,0 +1,19 @@
+---
+# tasks file for php
+- name: Enable to install PHP
+  command: "amazon-linux-extras enable php{{ php_version }}"
+  changed_when: False
+
+- name: Install PHP packages
+  yum:
+    name: "{{ item }}"
+    enablerepo: "{{ php_repo }}"
+    state: present
+  loop:
+    - "{{ php_packages }}"
+
+- name: Delivery php.ini
+  template:
+    src: "php.ini.j2"
+    dest: "/etc/php.ini"
+  notify: restart_apache

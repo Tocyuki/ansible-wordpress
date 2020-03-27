@@ -1,11 +1,30 @@
 ---
 # tasks file for apache
+- name: Create virtual host directory
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: apache
+    group: apache
+    mode: "{{ item.mode }}"
+  with_items: "{{ apache_directories }}"
+
 - name: Install Apache
   yum:
-    name: httpd
+    name: "{{ item }}-{{ apache_version }}"
     state: present
+  loop: "{{ apache_packages }}"
+
+- name: Delivery apache config files
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/httpd/{{ item }}"
+  notify: restart_apache
+  with_items:
+    - "{{ apache_config_files }}"
 
 - name: Start and enable Apache
+  become: yes
   service:
     name: httpd
     state: started

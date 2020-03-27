@@ -1,5 +1,5 @@
 ---
-# tasks file for mysql
+# tasks file for mysql-client
 - name: Uninstall MariaDB
   yum:
     name: mariadb-libs
@@ -10,13 +10,8 @@
     name: http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm
     state: present
 
-- name: Install MySQL
+- name: Install MySQL client
   yum:
-    name: mysql-community-server
+    name: "{{ item }}"
     state: present
-
-- name: Start and enable myslqd
-  service:
-    name: mysqld
-    state: started
-    enabled: yes
+  loop: "{{ mysql_client_packages }}"

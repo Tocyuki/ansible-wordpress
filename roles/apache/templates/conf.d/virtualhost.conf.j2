@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+    ServerAdmin root@{{ app_name }}.com
+    ServerName {{ apache_server_name }}
+    ServerAlias {{ apache_server_alias }}
+
+    DocumentRoot /var/www/vhosts/{{ app_name }}
+    ErrorLog /var/log/httpd/{{ app_name }}/error_log
+    CustomLog /var/log/httpd/{{ app_name }}/access_log combined_ltsv
+    DirectoryIndex index.php
+
+    RewriteEngine on
+
+    <Directory /var/www/vhosts/{{ app_name }}>
+        Options FollowSymLinks
+        Options -Indexes
+        include conf.d/setEnv.cnf
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>

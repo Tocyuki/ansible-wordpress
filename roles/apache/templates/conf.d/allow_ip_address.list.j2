@@ -1,0 +1,5 @@
+{% for ip_address in apache_allow_ip_list %}
+# {{ ip_address.description }}
+Require ip {{ ip_address.ip }}
+
+{% endfor %}

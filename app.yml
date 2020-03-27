@@ -2,5 +2,7 @@
 - hosts: app
   become: yes
   roles:
+    - common
+    - php
+    - mysql-client
     - apache
-    - wordpress

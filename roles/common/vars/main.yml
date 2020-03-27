@@ -1,0 +1,14 @@
+---
+# vars file for common
+operation_tools:
+  - iotop
+  - htop
+  - sysstat
+  - dstat
+  - tree
+  - tcpdump
+  - strace
+  - jq
+  - curl
+  - which
+  - git

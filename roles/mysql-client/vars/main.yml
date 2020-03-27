@@ -1,0 +1,7 @@
+---
+# vars file for mysql-client
+mysql_client_packages:
+  - mysql-community-client
+  - mysql-community-common
+  - mysql-community-devel
+  - mysql-community-libs
