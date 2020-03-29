@@ -4,9 +4,9 @@ apache_server_name: "www-{{ env }}.{{ app_name }}.com"
 apache_server_alias: "*.www-{{ env }}.{{ app_name }}.com"
 apache_version: "2.4.41-1.amzn2.0.1"
 apache_packages:
-  - httpd
-  - httpd-tools
-  - httpd-devel
+  - "httpd-{{ apache_version }}"
+  - "httpd-tools-{{ apache_version }}"
+  - "httpd-devel-{{ apache_version }}"
 apache_directories:
   - { path: "/var/www/vhosts/{{ app_name }}", user: "www-user", group: "www-user", mode: 2775 }
   - { path: "/var/log/httpd/{{ app_name }}",  user: "www-user", group: "www-user", mode: 2775 }
@@ -15,3 +15,4 @@ apache_config_files:
   - conf.d/allow_ip_address.list
   - conf.d/server-status.conf
   - conf.d/setEnv.cnf
+

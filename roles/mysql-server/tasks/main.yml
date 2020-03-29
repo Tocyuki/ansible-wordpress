@@ -10,14 +10,9 @@
     name: http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm
     state: present
 
-- name: Install MySQL server
+- name: Install MySQL server packages
   yum:
-    name: mysql-community-server
-    state: present
-
-- name: Install MySQL-python
-  yum:
-    name: MySQL-python
+    name: "{{ mysql_server_packages }}"
     state: present
 
 - name: Start and enable myslqd
@@ -32,9 +27,9 @@
 
 - name: Change root user password
   shell: |
-    mysql -u root -p'{{ mysql_default_password.stdout }}' --connect-expired-password -e "set password for root@'localhost'=password('{{ mysql_root_password }}');"
-    mysql -u root -p'{{ mysql_default_password.stdout }}' --connect-expired-password -e "SET GLOBAL validate_password_length=4;"
-    mysql -u root -p'{{ mysql_default_password.stdout }}' --connect-expired-password -e "SET GLOBAL validate_password_policy=LOW;"
+    mysql -u root -p{{ mysql_default_password.stdout }} --connect-expired-password -e "SET GLOBAL validate_password_length=4;"
+    mysql -u root -p{{ mysql_default_password.stdout }} --connect-expired-password -e "SET GLOBAL validate_password_policy=LOW;"
+    mysql -u root -p{{ mysql_default_password.stdout }} --connect-expired-password -e "SET PASSWORD FOR root@localhost=password('{{ mysql_root_password }}');"
   ignore_errors: true
 
 - name: Create database
@@ -53,3 +48,4 @@
     password: "{{ db_password }}"
     priv: "{{ app_name }}.*:ALL"
     state: present
+

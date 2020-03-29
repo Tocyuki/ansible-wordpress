@@ -9,11 +9,10 @@
     mode: "{{ item.mode }}"
   with_items: "{{ apache_directories }}"
 
-- name: Install Apache
+- name: Install Apache packages
   yum:
-    name: "{{ item }}-{{ apache_version }}"
+    name: "{{ apache_packages }}"
     state: present
-  loop: "{{ apache_packages }}"
 
 - name: Delivery apache config files
   template:
@@ -29,3 +28,4 @@
     name: httpd
     state: started
     enabled: yes
+

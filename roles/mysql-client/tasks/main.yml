@@ -7,11 +7,11 @@
 
 - name: Add MySQL repo
   yum:
-    name: http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm
+    name: "{{ mysql_repo }}"
     state: present
 
 - name: Install MySQL client
   yum:
-    name: "{{ item }}"
+    name: "{{ mysql_client_packages }}"
     state: present
-  loop: "{{ mysql_client_packages }}"
+

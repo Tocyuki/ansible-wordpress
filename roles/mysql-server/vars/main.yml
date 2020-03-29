@@ -1,2 +1,7 @@
 ---
 # vars file for mysql
+mysql_repo: http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm
+mysql_server_packages:
+  - mysql-community-server
+  - MySQL-python
+

@@ -2,7 +2,6 @@
 # tasks file for common
 - name: Install operation tools
   yum:
-    name: "{{ item }}"
+    name: "{{ operation_tools }}"
     state: present
-  loop:
-    - "{{ operation_tools }}"
+

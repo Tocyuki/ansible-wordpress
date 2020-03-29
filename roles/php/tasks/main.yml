@@ -6,14 +6,13 @@
 
 - name: Install PHP packages
   yum:
-    name: "{{ item }}"
+    name: "{{ php_packages }}"
     enablerepo: "{{ php_repo }}"
     state: present
-  loop:
-    - "{{ php_packages }}"
 
 - name: Delivery php.ini
   template:
     src: "php.ini.j2"
     dest: "/etc/php.ini"
   notify: restart_apache
+
